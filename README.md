@@ -1,4 +1,4 @@
-# Sistema Seguro de Comunicação
+# Sistema Seguro de Comunicação 🔒
 
 ## Descrição do Projeto
 
@@ -16,25 +16,6 @@ Este projeto tem como objetivo implementar criptografia e autenticação segura 
 - **Envio de Mensagens**: As mensagens enviadas são criptografadas utilizando AES antes de serem armazenadas.
 - **Recebimento de Mensagens**: O destinatário correto pode descriptografar a mensagem utilizando sua chave RSA, garantindo a segurança do conteúdo.
 
-## Estrutura do Repositório
-
-/sistema-seguro-comunicacao
-│── README.md                ← Explicação inicial do projeto
-│── /docs                    ← Armazena documentos do planejamento
-│   ├── esboco_projeto.md     ← Documento com o objetivo e tecnologias do projeto
-│   ├── proposta_implementacao.md  ← Explicação das tecnologias e etapas de implementação
-│   └── funcionalidades.md    ← Descrição das funcionalidades do sistema
-│── /diagrams                ← Guarda fluxogramas e desenhos do sistema
-│   └── fluxo_sistema.png    ← Fluxograma básico do sistema
-│── /src                     ← Pasta para código-fonte
-│   ├── __init__.py          ← Inicialização do pacote
-│   ├── main.py              ← Arquivo principal que roda o sistema
-│   ├── auth.py              ← Código para autenticação e geração de tokens JWT
-│   ├── encryption.py        ← Implementação da criptografia AES/RSA
-│   └── utils.py             ← Funções auxiliares, como manipulação de arquivos e hashes
-└── requirements.txt         ← Lista das dependências do projeto (bcrypt, PyJWT, cryptography, etc.)
-
-
 ## Fluxo Básico do Sistema
 
 1. **Cadastro de Usuário**: O usuário se cadastra, e sua senha é protegida com bcrypt.
@@ -46,7 +27,7 @@ Este projeto tem como objetivo implementar criptografia e autenticação segura 
 
 1. Clone este repositório:
     ```bash
-    git clone https://github.com/SEU_USUARIO/sistema-seguro-comunicacao.git
+    git clone https://github.com/leoferamos/sistema-seguro-comunicacao.git
     ```
 
 2. Instale as dependências:
@@ -54,9 +35,9 @@ Este projeto tem como objetivo implementar criptografia e autenticação segura 
     pip install -r requirements.txt
     ```
 
-3. Execute o sistema (exemplo de execução):
+3. Execute o sistema:
     ```bash
-    python src/main.py
+    python main.py
     ```
 
 ## Documentação
