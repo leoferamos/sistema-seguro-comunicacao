@@ -4,7 +4,6 @@
 ![Project Status](https://img.shields.io/badge/Status-Andamento-yellow)
 
 
-
 ## Descrição do Projeto
 
 Este projeto tem como objetivo implementar criptografia e autenticação segura em um sistema de comunicação interna para uma empresa. O foco é garantir a segurança das credenciais dos usuários e das mensagens trocadas, utilizando métodos modernos de criptografia e autenticação.
