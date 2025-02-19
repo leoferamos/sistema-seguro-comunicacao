@@ -18,7 +18,21 @@ Este projeto tem como objetivo implementar criptografia e autenticação segura 
 
 ## Estrutura do Repositório
 
-/sistema-seguro-comunicacao │── README.md ← Explicação inicial do projeto │── /docs ← Armazena documentos do planejamento │ ├── esboco_projeto.md ← Documento com o objetivo e tecnologias do projeto │ ├── proposta_implementacao.md ← Explicação das tecnologias e etapas de implementação │ └── funcionalidades.md ← Descrição das funcionalidades do sistema │── /diagrams ← Guarda fluxogramas e desenhos do sistema │ └── fluxo_sistema.png ← Fluxograma básico do sistema │── /src ← Pasta para código-fonte
+/sistema-seguro-comunicacao
+│── README.md                ← Explicação inicial do projeto
+│── /docs                    ← Armazena documentos do planejamento
+│   ├── esboco_projeto.md     ← Documento com o objetivo e tecnologias do projeto
+│   ├── proposta_implementacao.md  ← Explicação das tecnologias e etapas de implementação
+│   └── funcionalidades.md    ← Descrição das funcionalidades do sistema
+│── /diagrams                ← Guarda fluxogramas e desenhos do sistema
+│   └── fluxo_sistema.png    ← Fluxograma básico do sistema
+│── /src                     ← Pasta para código-fonte
+│   ├── __init__.py          ← Inicialização do pacote
+│   ├── main.py              ← Arquivo principal que roda o sistema
+│   ├── auth.py              ← Código para autenticação e geração de tokens JWT
+│   ├── encryption.py        ← Implementação da criptografia AES/RSA
+│   └── utils.py             ← Funções auxiliares, como manipulação de arquivos e hashes
+└── requirements.txt         ← Lista das dependências do projeto (bcrypt, PyJWT, cryptography, etc.)
 
 
 ## Fluxo Básico do Sistema
