@@ -1,4 +1,9 @@
 # Sistema Seguro de Comunicação 🔒
+![Python](https://img.shields.io/badge/Python-v3.10.0-%2338BDF8)
+![Last Commit](https://img.shields.io/github/last-commit/leoferamos/sistema-seguro-comunicacao)
+![Project Status](https://img.shields.io/badge/Status-Andamento-yellow)
+
+
 
 ## Descrição do Projeto
 
