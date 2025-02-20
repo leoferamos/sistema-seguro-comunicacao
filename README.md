@@ -8,25 +8,6 @@
 
 Este projeto tem como objetivo implementar criptografia e autenticação segura em um sistema de comunicação interna para uma empresa. O foco é garantir a segurança das credenciais dos usuários e das mensagens trocadas, utilizando métodos modernos de criptografia e autenticação.
 
-### Tecnologias Utilizadas:
-- **bcrypt**: Para hashing seguro de senhas.
-- **PyJWT**: Para autenticação via Tokens JWT.
-- **cryptography**: Para implementar criptografia simétrica (AES) e assimétrica (RSA).
-- **hashlib, base64, os**: Suporte auxiliar para criptografia e manipulação de dados.
-
-### Funcionalidades Implementadas:
-- **Cadastro de Usuário**: A senha do usuário é armazenada de forma segura, utilizando hashing com o algoritmo bcrypt.
-- **Login**: O sistema autentica o usuário e gera um Token JWT caso as credenciais estejam corretas.
-- **Envio de Mensagens**: As mensagens enviadas são criptografadas utilizando AES antes de serem armazenadas.
-- **Recebimento de Mensagens**: O destinatário correto pode descriptografar a mensagem utilizando sua chave RSA, garantindo a segurança do conteúdo.
-
-## Fluxo Básico do Sistema
-
-1. **Cadastro de Usuário**: O usuário se cadastra, e sua senha é protegida com bcrypt.
-2. **Login**: O usuário faz login e, caso a senha esteja correta, um Token JWT é gerado para autenticação.
-3. **Envio de Mensagem**: O usuário envia uma mensagem, que é criptografada com AES (CBC).
-4. **Recebimento de Mensagem**: O destinatário usa sua chave RSA para descriptografar a chave AES e acessar a mensagem.
-
 ## Como Executar
 
 1. Clone este repositório:
