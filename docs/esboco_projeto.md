@@ -6,9 +6,9 @@ Este projeto tem como objetivo garantir a segurança da comunicação entre func
 ## Tecnologias Utilizadas  
 As seguintes tecnologias serão aplicadas para garantir a segurança do sistema:  
 
-✅ **bcrypt (v4.0.1)** → Para hashing seguro de senhas, protegendo credenciais armazenadas.  
-✅ **PyJWT (v2.8.0)** → Para autenticação via Tokens JWT, garantindo acesso seguro ao sistema.  
-✅ **cryptography (v42.0.0)** → Para implementação da criptografia simétrica (AES) e assimétrica (RSA).  
+✅ **[bcrypt (v4.2.1)](https://pypi.org/project/bcrypt/4.2.1/)** → Para hashing seguro de senhas, protegendo credenciais armazenadas.  
+✅ **[PyJWT (v2.10.1)](https://pyjwt.readthedocs.io/en/stable/)** → Para autenticação via Tokens JWT, garantindo acesso seguro ao sistema.  
+✅ **[cryptography (v42.0.0)](https://pypi.org/project/cryptography/)** → Para implementação da criptografia simétrica (AES) e assimétrica (RSA).  
 ✅ **hashlib, base64, os** → Para suporte auxiliar em operações de criptografia e manipulação de dados.  
 
 ## Fluxo Básico do Sistema  
