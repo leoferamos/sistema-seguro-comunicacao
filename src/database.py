@@ -1,14 +1,14 @@
 import sqlite3
 import os
-# Define o caminho do banco na pasta 'data'
+# Define o caminho do banco de dados
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, '..', 'data', 'users.db')
-def get_connection():
-   return sqlite3.connect(DB_PATH)
+DATA_DIR = os.path.join(BASE_DIR, '..', 'data')
+# Garante que o diretório 'data' exista
+os.makedirs(DATA_DIR, exist_ok=True)
+DB_PATH = os.path.join(DATA_DIR, 'users.db')
 def init_db():
-   conn = get_connection()
+   conn = sqlite3.connect(DB_PATH)
    cursor = conn.cursor()
-   # Cria a tabela de usuários; usamos BLOB para armazenar o hash binário
    cursor.execute('''
    CREATE TABLE IF NOT EXISTS usuarios (
        id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,3 +18,6 @@ def init_db():
    ''')
    conn.commit()
    conn.close()
+   print("Banco de dados criado com sucesso.")
+if __name__ == '__main__':
+   init_db()
