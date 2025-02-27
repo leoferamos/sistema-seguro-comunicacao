@@ -82,12 +82,15 @@ ptyprocess==0.7.0
 pure_eval==0.2.3
 pycparser==2.22
 Pygments==2.18.0
+pyotp
 pyparsing==3.2.0
 python-dateutil==2.9.0.post0
+python-dotenv
 python-json-logger==3.2.0
 pytz==2024.2
 PyYAML==6.0.2
 pyzmq==26.2.0
+qrcode
 referencing==0.35.1
 requests==2.32.3
 rfc3339-validator==0.1.4
