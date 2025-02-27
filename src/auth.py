@@ -2,13 +2,15 @@ import sqlite3
 import bcrypt
 import os
 import jwt
+import pyotp
+import qrcode
 from datetime import datetime, timedelta
 
 # Define o caminho do banco de dados
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, '..', 'data', 'users.db')
 
-# Futuramente definir uma chave secreta forte para a assinatura jwt
+# Chave secreta para assinatura JWT
 SECRET_KEY = 'your_secret_key'
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY não pode estar vazia")
@@ -16,6 +18,27 @@ if not SECRET_KEY:
 # Dicionário para armazenar tentativas de login e tempos de bloqueio
 login_attempts = {}
 lockout_time = 5 * 60  # Tempo de bloqueio em segundos (5 minutos)
+
+# Gera um segredo TOTP para o usuário
+def generate_totp_secret():
+    return pyotp.random_base32()
+
+# Gera um código QR para o segredo TOTP
+def get_totp_uri(username, secret):
+    totp = pyotp.TOTP(secret)
+    return totp.provisioning_uri(name=username, issuer_name="SistemaSeguro")
+
+# Gera e exibe o código QR no terminal
+def generate_qr_code(uri):
+    qr = qrcode.QRCode()
+    qr.add_data(uri)
+    qr.make(fit=True)
+    qr.print_ascii()
+
+# Verifica o código TOTP
+def verify_totp(token, secret):
+    totp = pyotp.TOTP(secret)
+    return totp.verify(token)
 
 # Registra um novo usuário no banco de dados.
 def register_user(username, password):
@@ -35,11 +58,18 @@ def register_user(username, password):
     salt = bcrypt.gensalt()
     password_hash = bcrypt.hashpw(password.encode(), salt)
 
+    # Gera um segredo TOTP
+    totp_secret = generate_totp_secret()
+
     # Insere o novo usuário no banco de dados
-    cursor.execute("INSERT INTO usuarios (username, password_hash) VALUES (?, ?)", (username, password_hash))
+    cursor.execute("INSERT INTO usuarios (username, password_hash, totp_secret) VALUES (?, ?, ?)", (username, password_hash, totp_secret))
     conn.commit()
     conn.close()
-    return "Usuário registrado com sucesso!"
+
+    # Retorna o URI do TOTP para ser exibido como código QR
+    totp_uri = get_totp_uri(username, totp_secret)
+    generate_qr_code(totp_uri)
+    return f"Usuário registrado com sucesso! Escaneie o código QR no Microsoft Authenticator."
 
 # Gera um token JWT para o usuário.
 def generate_token(user_id):
@@ -61,7 +91,7 @@ def verify_token(token):
         return "Token inválido. Faça login novamente."
 
 # Verifica se o login do usuário é válido.
-def verificar_login(username, password):
+def verificar_login(username, password, token):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -78,16 +108,19 @@ def verificar_login(username, password):
                 login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após o tempo de bloqueio
 
     # Busca as credenciais do usuário no banco de dados
-    cursor.execute("SELECT id, password_hash FROM usuarios WHERE username = ?", (username,))
+    cursor.execute("SELECT id, password_hash, totp_secret FROM usuarios WHERE username = ?", (username,))
     user = cursor.fetchone()
 
     conn.close()
 
     # Verifica se o usuário existe e se a senha está correta
     if user and bcrypt.checkpw(password.encode(), user[1]):
-        token = generate_token(user[0])
-        login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após login bem-sucedido
-        return f"✅ Login bem-sucedido! Seu token: {token}"
+        if verify_totp(token, user[2]):
+            jwt_token = generate_token(user[0])
+            login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após login bem-sucedido
+            return f"✅ Login bem-sucedido! Seu token: {jwt_token}"
+        else:
+            return "❌ Código TOTP inválido."
     else:
         if username in login_attempts:
             attempts, _ = login_attempts[username]
