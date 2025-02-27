@@ -1,4 +1,13 @@
 import auth
+import os
+
+def limparTela():
+    sistemaOperacional = os.name 
+    if sistemaOperacional != 'nt': 
+        os.system('clear')
+    else: 
+        os.system('cls')
+
 
 def menu():
     while True:
@@ -10,17 +19,20 @@ def menu():
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
+            limparTela()
             username = input("Digite um nome de usuário: ")
             password = input("Digite uma senha: ")
             print(auth.register_user(username, password))
 
         elif opcao == "2":
+            limparTela()
             username = input("Digite seu nome de usuário: ")
             password = input("Digite sua senha: ")
             token = input("Digite o código TOTP do seu aplicativo autenticador: ")
             print(auth.verificar_login(username, password, token))
 
         elif opcao == "3":
+            limparTela()
             usuarios = auth.listar_usuarios()
             if usuarios:
                 print("\nUsuários cadastrados:")
