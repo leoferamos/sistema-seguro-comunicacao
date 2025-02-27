@@ -8,10 +8,14 @@ from datetime import datetime, timedelta
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, '..', 'data', 'users.db')
 
-# Certifique-se de definir uma chave secreta forte
+# Futuramente definir uma chave secreta forte para a assinatura jwt
 SECRET_KEY = 'your_secret_key'
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY não pode estar vazia")
+
+# Dicionário para armazenar tentativas de login e tempos de bloqueio
+login_attempts = {}
+lockout_time = 5 * 60  # Tempo de bloqueio em segundos (5 minutos)
 
 # Registra um novo usuário no banco de dados.
 def register_user(username, password):
@@ -61,6 +65,18 @@ def verificar_login(username, password):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    # Normaliza o nome de usuário para minúsculas
+    username = username.lower()
+
+    # Verifica se o usuário excedeu o limite de tentativas
+    if username in login_attempts:
+        attempts, last_attempt_time = login_attempts[username]
+        if attempts >= 5:
+            if (datetime.now() - last_attempt_time).total_seconds() < lockout_time:
+                return "❌ Muitas tentativas falharam. Tente novamente mais tarde."
+            else:
+                login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após o tempo de bloqueio
+
     # Busca as credenciais do usuário no banco de dados
     cursor.execute("SELECT id, password_hash FROM usuarios WHERE username = ?", (username,))
     user = cursor.fetchone()
@@ -70,9 +86,15 @@ def verificar_login(username, password):
     # Verifica se o usuário existe e se a senha está correta
     if user and bcrypt.checkpw(password.encode(), user[1]):
         token = generate_token(user[0])
+        login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após login bem-sucedido
         return f"✅ Login bem-sucedido! Seu token: {token}"
     else:
-        return "❌ Login falhou! Verifique suas credenciais."
+        if username in login_attempts:
+            attempts, _ = login_attempts[username]
+            login_attempts[username] = (attempts + 1, datetime.now())
+        else:
+            login_attempts[username] = (1, datetime.now())
+        return f"❌ Login falhou! Verifique suas credenciais. Tentativas restantes: {5 - login_attempts[username][0]}"
 
 # Lista todos os usuários cadastrados no banco de dados.
 def listar_usuarios():
