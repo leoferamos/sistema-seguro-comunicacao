@@ -18,6 +18,9 @@ def register_user(username, password):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
+    # Normaliza o nome de usuário para minúsculas
+    username = username.lower()
+
     # Verifica se o usuário já existe
     cursor.execute("SELECT * FROM usuarios WHERE username = ?", (username,))
     if cursor.fetchone():
