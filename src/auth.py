@@ -134,7 +134,7 @@ def listar_usuarios():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, username FROM usuarios")  
+    cursor.execute("SELECT id, username FROM usuarios ORDER BY id")  
     users = cursor.fetchall()
     conn.close()
 
