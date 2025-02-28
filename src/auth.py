@@ -5,6 +5,10 @@ import jwt
 import pyotp
 import qrcode
 from datetime import datetime, timedelta
+from logger_config import configure_logger
+
+# Configura o logger
+logger = configure_logger()
 
 # Define o caminho do banco de dados
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -103,6 +107,7 @@ def verificar_login(username, password, token):
         attempts, last_attempt_time = login_attempts[username]
         if attempts >= 5:
             if (datetime.now() - last_attempt_time).total_seconds() < lockout_time:
+                logger.warning(f"Muitas tentativas falharam para o usuário: {username}")
                 return "❌ Muitas tentativas falharam. Tente novamente mais tarde."
             else:
                 login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após o tempo de bloqueio
@@ -118,8 +123,10 @@ def verificar_login(username, password, token):
         if verify_totp(token, user[2]):
             jwt_token = generate_token(user[0])
             login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após login bem-sucedido
+            logger.info(f"Login bem-sucedido para o usuário: {username}")
             return f"✅ Login bem-sucedido! Seu token: {jwt_token}"
         else:
+            logger.warning(f"Código TOTP inválido para o usuário: {username}")
             return "❌ Código TOTP inválido."
     else:
         if username in login_attempts:
@@ -127,6 +134,7 @@ def verificar_login(username, password, token):
             login_attempts[username] = (attempts + 1, datetime.now())
         else:
             login_attempts[username] = (1, datetime.now())
+        logger.warning(f"Login falhou para o usuário: {username}. Tentativas restantes: {5 - login_attempts[username][0]}")
         return f"❌ Login falhou! Verifique suas credenciais. Tentativas restantes: {5 - login_attempts[username][0]}"
 
 # Lista todos os usuários cadastrados no banco de dados.
