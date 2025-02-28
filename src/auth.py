@@ -15,6 +15,9 @@ SECRET_KEY = 'your_secret_key'
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY não pode estar vazia")
 
+# URL da imagem do ícone hospedada no GitHub
+ICON_URL = 'https://raw.githubusercontent.com/leoferamos/sistema-seguro-comunicacao/main/assets/icon.png'
+
 # Dicionário para armazenar tentativas de login e tempos de bloqueio
 login_attempts = {}
 lockout_time = 5 * 60  # Tempo de bloqueio em segundos (5 minutos)
@@ -26,7 +29,8 @@ def generate_totp_secret():
 # Gera um código QR para o segredo TOTP
 def get_totp_uri(username, secret):
     totp = pyotp.TOTP(secret)
-    return totp.provisioning_uri(name=username, issuer_name="SistemaSeguro")
+    uri = totp.provisioning_uri(name=username, issuer_name="SistemaSeguro")
+    return f"{uri}&image={ICON_URL}"
 
 # Gera e exibe o código QR no terminal
 def generate_qr_code(uri):
