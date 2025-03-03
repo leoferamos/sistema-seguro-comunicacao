@@ -31,8 +31,7 @@ def menu():
             limpar_tela()
             username = input("Digite seu nome de usuário: ")
             password = pwinput.pwinput("Digite sua senha: ")
-            token = input("Digite o código TOTP do seu aplicativo autenticador: ")
-            print(auth.verificar_login(username, password, token))
+            print(auth.verificar_login(username, password))
             input("\nPressione Enter para continuar...")
 
         elif opcao == "3":
