@@ -3,3 +3,5 @@ pyotp
 qrcode[pil]
 python-dotenv
 PyJWT
+pwinput
+getch
