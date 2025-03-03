@@ -59,9 +59,6 @@ def register_user(username, password):
         conn.close()
         return "Erro: Nome de usuário já existe."
 
-    # Solicita a senha do usuário
-    password = pwinput.pwinput("Digite sua senha: ")
-
     # Gera um SALT e hasheia a senha
     salt = bcrypt.gensalt()
     password_hash = bcrypt.hashpw(password.encode(), salt)

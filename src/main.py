@@ -20,7 +20,11 @@ def menu():
             limpar_tela()
             username = input("Digite um nome de usuário: ")
             password = pwinput.pwinput("Digite uma senha: ")
-            print(auth.register_user(username, password))
+            confirm_password = pwinput.pwinput("Confirme sua senha: ")
+            if password != confirm_password:
+                print("Erro: As senhas não coincidem.")
+            else:
+                print(auth.register_user(username, password))
             input("\nPressione Enter para continuar...")
 
         elif opcao == "2":
