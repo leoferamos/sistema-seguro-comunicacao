@@ -1,6 +1,7 @@
 import pwinput
 import auth
 import os
+from getch import getch
 
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -22,7 +23,10 @@ def login():
             if "Muitas tentativas falharam" in resultado:
                 input("\nPressione Enter para continuar...")
                 break
-            input("\nPressione Enter para tentar novamente...")
+            print("\nPressione 'Enter' para tentar novamente ou 'Esc' para voltar ao menu inicial...")
+            opcao = getch()
+            if opcao == '\x1b':  # Código ASCII para a tecla Esc
+                return
 
 def menu():
     while True:
