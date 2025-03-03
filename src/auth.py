@@ -122,7 +122,7 @@ def verificar_login(username, password):
     # Verifica se o usuário existe e se a senha está correta
     if user and bcrypt.checkpw(password.encode(), user[1]):
         # Solicita o código TOTP apenas após a verificação da senha
-        token = pwinput.pwinput("Digite o código TOTP do seu aplicativo autenticador: ")
+        token = input("Digite o código TOTP do seu aplicativo autenticador: ")
         if verify_totp(token, user[2]):
             jwt_token = generate_token(user[0])
             login_attempts[username] = (0, datetime.now())  # Reseta as tentativas após login bem-sucedido

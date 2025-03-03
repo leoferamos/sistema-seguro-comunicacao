@@ -5,6 +5,25 @@ import os
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def login():
+    limpar_tela()
+    username = input("Digite seu nome de usuário: ")
+    while True:
+        limpar_tela()
+        print(f"Digite seu nome de usuário: {username}")
+        password = pwinput.pwinput("Digite sua senha: ")
+        resultado = auth.verificar_login(username, password)
+        if "Login bem-sucedido" in resultado:
+            print(resultado)
+            input("\nPressione Enter para continuar...")
+            break
+        else:
+            print(resultado)
+            if "Muitas tentativas falharam" in resultado:
+                input("\nPressione Enter para continuar...")
+                break
+            input("\nPressione Enter para tentar novamente...")
+
 def menu():
     while True:
         limpar_tela()
@@ -28,11 +47,7 @@ def menu():
             input("\nPressione Enter para continuar...")
 
         elif opcao == "2":
-            limpar_tela()
-            username = input("Digite seu nome de usuário: ")
-            password = pwinput.pwinput("Digite sua senha: ")
-            print(auth.verificar_login(username, password))
-            input("\nPressione Enter para continuar...")
+            login()
 
         elif opcao == "3":
             limpar_tela()
