@@ -106,9 +106,6 @@ def verificar_login(username, password, token):
     # Normaliza o nome de usuário para minúsculas
     username = username.lower()
 
-    # Solicita a senha do usuário
-    password = pwinput.pwinput("Digite sua senha: ")
-
     # Verifica se o usuário excedeu o limite de tentativas
     if username in login_attempts:
         attempts, last_attempt_time = login_attempts[username]
