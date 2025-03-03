@@ -28,6 +28,26 @@ def login():
             if opcao == '\x1b':  # Código ASCII para a tecla Esc
                 return
 
+def registrar_usuario():
+    while True:
+        limpar_tela()
+        username = input("Digite um nome de usuário: ")
+        while True:
+            limpar_tela()
+            print(f"Digite um nome de usuário: {username}")
+            password = pwinput.pwinput("Digite uma senha: ")
+            confirm_password = pwinput.pwinput("Confirme sua senha: ")
+            if password != confirm_password:
+                print("❌ Erro: As senhas não coincidem.")
+                print("\nPressione 'Enter' para tentar novamente ou 'Esc' para voltar ao menu inicial...")
+                opcao = getch()
+                if opcao == '\x1b':  # Código ASCII para a tecla Esc
+                    return
+            else:
+                print(auth.register_user(username, password))
+                input("\nPressione Enter para continuar...")
+                return
+
 def menu():
     while True:
         limpar_tela()
@@ -40,15 +60,7 @@ def menu():
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            limpar_tela()
-            username = input("Digite um nome de usuário: ")
-            password = pwinput.pwinput("Digite uma senha: ")
-            confirm_password = pwinput.pwinput("Confirme sua senha: ")
-            if password != confirm_password:
-                print("Erro: As senhas não coincidem.")
-            else:
-                print(auth.register_user(username, password))
-            input("\nPressione Enter para continuar...")
+            registrar_usuario()
 
         elif opcao == "2":
             login()

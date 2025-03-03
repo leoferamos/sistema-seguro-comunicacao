@@ -4,7 +4,6 @@ import os
 import jwt
 import pyotp
 import qrcode
-import pwinput
 from datetime import datetime, timedelta
 from logger_config import configure_logger
 
