@@ -4,6 +4,7 @@ import os
 import jwt
 import pyotp
 import qrcode
+import pwinput
 from datetime import datetime, timedelta
 from logger_config import configure_logger
 
@@ -58,6 +59,9 @@ def register_user(username, password):
         conn.close()
         return "Erro: Nome de usuário já existe."
 
+    # Solicita a senha do usuário
+    password = pwinput.pwinput("Digite sua senha: ")
+
     # Gera um SALT e hasheia a senha
     salt = bcrypt.gensalt()
     password_hash = bcrypt.hashpw(password.encode(), salt)
@@ -101,6 +105,9 @@ def verificar_login(username, password, token):
 
     # Normaliza o nome de usuário para minúsculas
     username = username.lower()
+
+    # Solicita a senha do usuário
+    password = pwinput.pwinput("Digite sua senha: ")
 
     # Verifica se o usuário excedeu o limite de tentativas
     if username in login_attempts:

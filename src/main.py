@@ -1,3 +1,4 @@
+import pwinput
 import auth
 import os
 
@@ -18,14 +19,14 @@ def menu():
         if opcao == "1":
             limpar_tela()
             username = input("Digite um nome de usuário: ")
-            password = input("Digite uma senha: ")
+            password = pwinput.pwinput("Digite uma senha: ")
             print(auth.register_user(username, password))
             input("\nPressione Enter para continuar...")
 
         elif opcao == "2":
             limpar_tela()
             username = input("Digite seu nome de usuário: ")
-            password = input("Digite sua senha: ")
+            password = pwinput.pwinput("Digite sua senha: ")
             token = input("Digite o código TOTP do seu aplicativo autenticador: ")
             print(auth.verificar_login(username, password, token))
             input("\nPressione Enter para continuar...")
